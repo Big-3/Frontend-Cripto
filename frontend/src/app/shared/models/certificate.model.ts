@@ -1,29 +1,24 @@
-import { bigintToHex } from "bigint-conversion";
-import { RSAPrivateKey, RSAPublicKey } from "Moduls-Ciber/src/ts/RSA";
-import { Logger } from "tslog";
+import { bigintToHex, bigintToText } from "bigint-conversion";
+import { RSAPrivateKey, RSAPublicKey } from "@big3/ciber-modules";
 
 export class Certificate {
     private _pubKey : RSAPublicKey;
     private _serverSignature : bigint;
-    private _logger: Logger;
 
     constructor (pubKey: RSAPublicKey, serverSignature: bigint) {
         this._pubKey = pubKey;
         this._serverSignature = serverSignature;
-        this._logger = new Logger();
     }
 
     getSafeJsonCertificate(): any {
-        this._logger.info(`Getting JSON safe Certificate`);
         var safeCertificate = {
-            publicKey: this.getJsonSafePubKey(),
+            safePublicKey: this.getJsonSafePubKey(),
             serverSignature: this.getJsonSafeServerSignature()
         };
         return safeCertificate;
     }
 
     getJsonSafePubKey(): any {
-        this._logger.info(`GETTING SAFE JSON KEY`);
         var safeKey = {
             e: bigintToHex(this._pubKey.getExpE()),
             n: bigintToHex(this._pubKey.getModN())
@@ -36,7 +31,6 @@ export class Certificate {
     }
 
     getJsonSafeServerSignature(): any {
-        this._logger.info(`GETTING SAFE JSON SIGNATURE`);
         var safeSignature = bigintToHex(this._serverSignature);
         return safeSignature;
     }
@@ -60,14 +54,17 @@ export class PrivateCertificate extends Certificate{
         
         var safePrivKey = {
             d: bigintToHex(this._privKey.getExpD()),
-            
-        }
+            pubKey: this.getJsonSafePubKey()
+        };
+        return safePrivKey;
     }
 
     getJsonSafePrivateCertificate(): any{
         var safePrivateCertificate = {
-            pubKey: this.getJsonSafePubKey(),
-            privKey: 
-        } 
+            certificate: this.getSafeJsonCertificate(),
+            privKey: this.getJsonSafePrivKey()
+        };
+
+        return safePrivateCertificate;
     }
 }

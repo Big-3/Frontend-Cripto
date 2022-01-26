@@ -1,0 +1,19 @@
+<div class="page-header">
+	<div class=container>
+		<h1> Genera el teu pròpi certificat digital </h1>
+	</div>
+</div>
+<div class="rule"></div>
+<div class='container'>
+	<div class="form">
+		<h4> Generar Claus i Rebre un certificat </h4>
+		<form [formGroup]="generarForm">
+			<br>
+			<label> Private Key (d): </label><input formControlName="privKey" class="form-control" placeholder="Generate Key" /><br><br>
+			<label> Public Key (e): </label><input formControlName="pubKey" class="form-control"placeholder="Generate Key" /><br><br>
+			<label> Modulus (n): </label><input formControlName="modulus" class="form-control" placeholder="Generate Key" /><br><br>
+            <label> DNI: </label><input type="text" formControlName="dni" class="form-control" placeholder="DNI" /><br><br>
+			<button type="button" class='btn btn-primary ladda-button' (click)='generarClaus()'>Generate Keys</button>
+		</form>
+	</div>
+</div>

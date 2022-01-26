@@ -1,0 +1,17 @@
+<div class="page-header">
+	<div class=container>
+		<h1> Verifica el teu pròpi certificat digital </h1>
+	</div>
+</div>
+<div class="rule"></div>
+<div class='container'>
+	<div class="form">
+		<h4> Eemplena el teu certificat </h4>
+		<form [formGroup]="validateForm">
+			<br>
+			<label> Certificat: </label><input type="text" formControlName="certificat" class="form-control" placeholder="Certifcat" /><br><br>
+			<label> Clau Privada (d): </label><input type="text" formControlName="privKey" class="form-control" placeholder="Clau Privada" /><br><br>			
+			<button type="button" class='btn btn-primary ladda-button' (click)='validarCertificat()'>Valida</button>
+		</form>
+	</div>
+</div>
