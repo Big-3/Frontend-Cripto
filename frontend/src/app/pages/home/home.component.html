@@ -13,7 +13,10 @@
 			<label> Public Key (e): </label><input formControlName="pubKey" class="form-control"placeholder="Generate Key" /><br><br>
 			<label> Modulus (n): </label><input formControlName="modulus" class="form-control" placeholder="Generate Key" /><br><br>
             <label> DNI: </label><input type="text" formControlName="dni" class="form-control" placeholder="DNI" /><br><br>
-			<button type="button" class='btn btn-primary ladda-button' (click)='generarClaus()'>Generate Keys</button>
+			<button type="button" class='btn btn-primary ladda-button' (click)='generarClaus()'>Generate Keys</button><br><br>
+			<div id= 'certificate' *ngIf="show">
+				<label> <strong>Certificate:</strong><input formControlName="certificate" class="form-control" placeholder="Certificate" /></label>
+			</div>
 		</form>
 	</div>
 </div>

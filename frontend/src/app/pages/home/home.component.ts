@@ -14,10 +14,14 @@ import * as bcu from 'bigint-crypto-utils';
 })
 export class HomeComponent implements OnInit {
   generarForm!: FormGroup;
+  certificate: string;
+  show: Boolean = false;
+
   private privKey: RSAPrivateKey;
   private serverKey: RSAPublicKey | undefined;
 
-  constructor(private formBuilder: FormBuilder, private certService: CertificateService) { 
+  constructor(private formBuilder: FormBuilder, private certService: CertificateService) {
+    this.certificate = ''; 
     this.privKey = new RSAPrivateKey(BigInt(0), new RSAPublicKey(BigInt(0), BigInt(0)));
   }
 
@@ -26,6 +30,7 @@ export class HomeComponent implements OnInit {
       pubKey: [{value: '', disabled: true}],
       privKey: [{value: '', disabled: true}],
       modulus: [{value: '', disabled: true}],
+      certificate: [{value: '', disabled: true}],
       dni: ['', [Validators.required]]
     });
 
@@ -69,7 +74,9 @@ export class HomeComponent implements OnInit {
                   const verificated = bigintConversion.bigintToText(this.serverKey!.verify(unblindedDni));
                   console.log(`Comparant ${dni} amb ${verificated}`);
                   if (verificated == dni){
-                    console.log('El certificat és vàlid');  
+                    console.log('El certificat és vàlid');
+                    this.generarForm.controls['certificate'].patchValue(JSON.stringify(json));
+                    this.show = true;  
                   } else {
                     console.log('El certificat no és vàlid');
                   }

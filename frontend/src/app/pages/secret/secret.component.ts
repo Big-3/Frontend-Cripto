@@ -12,6 +12,7 @@ import { CertificateUtils } from 'src/app/shared/utils/certificate-utils.model';
 export class SecretComponent implements OnInit {
   certificateForm!: FormGroup;
   shareFormer!: FormGroup;
+  show: Boolean = false;
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder) { 
     this.certificateForm = this.formBuilder.group({
@@ -23,7 +24,8 @@ export class SecretComponent implements OnInit {
 
     this.shareFormer = this.formBuilder.group({
       share1: ['', [Validators.required]],
-      share2: ['', [Validators.required]]
+      share2: ['', [Validators.required]],
+      dni: [{value: '', disable: true}]
     });
   }
 
@@ -57,7 +59,13 @@ export class SecretComponent implements OnInit {
       const safeShare1 = this.shareFormer.controls['share1'].value;
       const safeShare2 = this.shareFormer.controls['share2'].value;
 
-      this.http.post('http://localhost:8080/api/cert/user', {safeShares: [safeShare1, safeShare2]}).toPromise().then();
+      this.http.post('http://localhost:8080/api/cert/user', {safeShares: [safeShare1, safeShare2]}).toPromise().then(
+        (json: any) => {
+          console.log(json);
+          this.shareFormer.controls['dni'].patchValue(json.dni);
+          this.show = true;
+        }
+      );
     } else {
       console.log('Emplena camps');
     }
